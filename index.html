@@ -3,14 +3,13 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Codex Θ-17 — Полный сайт по Каэлиосу</title>
-  <meta name="description" content="Codex Θ-17 — энциклопедия о Каэлиосе: наименования в разных культурах, хроники, Liber CMXII, эффекты Света, архив и справочник." />
+  <title>Codex Θ-17 — v1.0.1 — Release Fix</title>
+  <meta name="description" content="Codex Θ-17 — энциклопедия о Каэлиосе: наименования, хроники, Liber CMXII, эффекты Света, архив Зен’Актар." />
   <style>
-    /* ====== THEME ====== */
     :root{
       --bg:#060505; --panel:#efe6d3; --muted:#7c7468; --accent:#c58a2f; --gold:#d6c27a;
-      --card: rgba(18,18,16,0.9);
-      --ink:#e9e2c8;
+      --ink:#e9e2c8; --card: rgba(18,18,16,0.9);
+      --line:rgba(255,255,255,.06);
     }
     *{box-sizing:border-box}
     html,body{height:100%}
@@ -22,21 +21,20 @@
         linear-gradient(180deg,#050506 0,#0f0f0f 100%);
       color:var(--ink);
     }
-
-    /* ====== HEADER ====== */
     header{
       padding:28px 24px;
       background:linear-gradient(180deg,#0d0d0d,#070707);
-      border-bottom:1px solid rgba(255,255,255,0.03)
+      border-bottom:1px solid rgba(255,255,255,0.03);
     }
     .site{max-width:1200px;margin:18px auto;padding:12px}
     .brand{display:flex;gap:14px;align-items:center}
     .logo{
       width:64px;height:64px;border-radius:10px;
       background:linear-gradient(180deg,#2b2b2b,#0b0b0b);
-      display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;letter-spacing:.5px
+      display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;letter-spacing:.5px;
+      box-shadow:0 0 18px rgba(214,194,122,.25);
     }
-    h1{margin:0;font-size:22px;color:var(--gold);font-weight:700;letter-spacing:.3px}
+    h1{margin:0;font-size:22px;color:var(--gold);font-weight:800;letter-spacing:.3px;text-shadow:0 0 8px rgba(214,194,122,.2)}
     p.lead{margin:6px 0 0 0;color:var(--muted)}
     nav.topnav{display:flex;gap:12px;margin-top:14px;flex-wrap:wrap}
     nav.topnav button{
@@ -49,7 +47,6 @@
       color:var(--accent);border-color:rgba(197,138,47,0.24)
     }
 
-    /* ====== LAYOUT ====== */
     .columns{display:grid;grid-template-columns:320px 1fr;gap:18px;margin-top:18px}
     aside.panel{
       background:var(--panel);color:#2a1f0d;padding:16px;border-radius:12px;
@@ -90,17 +87,16 @@
     .card h2{margin:0 0 8px 0;color:var(--gold)}
     .card p{margin:6px 0;color:#efe9d8}
 
-    /* ====== TABLE ====== */
     table.codex{width:100%;border-collapse:collapse;margin-top:10px}
     table.codex thead th{
       background:linear-gradient(180deg,#10100f,#1b1917);color:var(--gold);
       padding:10px;text-align:left;font-weight:800
     }
-    table.codex tbody td{padding:10px;border-bottom:1px solid rgba(255,255,255,0.06);color:#efe9d8}
+    table.codex tbody td{padding:10px;border-bottom:1px solid var(--line);color:#efe9d8}
     table.codex tbody tr:nth-child(even){background:linear-gradient(90deg, rgba(255,255,255,0.01), rgba(0,0,0,0.03))}
     table.codex tbody tr.hoverable{cursor:pointer;transition:background .2s}
     table.codex tbody tr.hoverable:hover{background:rgba(215,175,80,0.06)}
-    /* раскрывающаяся строка */
+
     tr.detail-row td{
       background:linear-gradient(180deg, rgba(30,27,20,.9), rgba(20,18,14,.96));
       border-bottom:1px solid rgba(255,255,255,.08); padding:14px 12px
@@ -110,7 +106,6 @@
     .detail-meta{color:#b8b2a0;font-size:13px}
     .detail-text{color:#efe9d8;line-height:1.5}
 
-    /* ====== GRID CARDS ====== */
     .grid-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:12px}
     .block{
       background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.04));
@@ -121,23 +116,24 @@
 
     footer{margin-top:18px;padding:18px;text-align:center;color:var(--muted)}
 
-    /* ====== CHANGELOG POPUP ====== */
     #changelog-wrap{
       position:fixed;right:20px;bottom:20px;width:520px;max-width:92vw;
       background:linear-gradient(180deg,#0d0d0d,#080808);border-radius:12px;padding:12px;
       border:1px solid rgba(191,167,92,0.12);display:none;box-shadow:0 20px 80px rgba(0,0,0,.8)
     }
-    #changelog{color:#efe9d8;font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, "Courier New", monospace;max-height:60vh;overflow:auto}
+    #changelog{
+      color:#efe9d8;font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, "Courier New", monospace;
+      max-height:60vh;overflow:auto
+    }
     #changelog h1,#changelog h2,#changelog h3{color:var(--gold);margin:.3em 0}
-    #changelog p, #changelog li, #archive-markdown p, #archive-markdown li{line-height:1.5}
-    #changelog blockquote, #archive-markdown blockquote{
+    #changelog p,#changelog li,#archive-markdown p,#archive-markdown li{line-height:1.5}
+    #changelog blockquote,#archive-markdown blockquote{
       border-left:3px solid var(--gold);padding-left:10px;color:#d9cfb1;opacity:.95
     }
-    #changelog code, #archive-markdown code{
+    #changelog code,#archive-markdown code{
       background:#222;border:1px solid #333;border-radius:6px;padding:1px 4px
     }
 
-    /* ====== ARCHIVE MODAL ====== */
     .modal{
       position:fixed;left:50%;top:50%;transform:translate(-50%,-50%) scale(.98);
       width:92vw;max-width:980px;max-height:86vh;overflow:auto;
@@ -145,10 +141,8 @@
       box-shadow:0 30px 120px rgba(0,0,0,.7);display:none;border:1px solid #a88652
     }
     .modal.open{display:block;transform:translate(-50%,-50%) scale(1)}
-    .modal h3{margin:0 0 8px 0;color:#6b521c}
     .print{margin-top:12px;padding:8px 12px;border-radius:8px;border:1px solid #a88652;background:linear-gradient(135deg,#d7c69a,#bfa76b);cursor:pointer}
 
-    /* ====== SMALL RESPONSIVE ====== */
     @media(max-width:980px){
       .columns{grid-template-columns:1fr}
       .brand{flex-direction:column;align-items:flex-start}
@@ -157,14 +151,13 @@
   </style>
 </head>
 <body>
-  <!-- ====== HEADER ====== -->
   <header>
     <div class="site">
       <div class="brand">
         <div class="logo">Θ</div>
         <div>
-          <h1>Codex Θ-17 — О Каэлиосе</h1>
-          <p class="lead">Справочник: наименования, свидетельства, Liber CMXII, архив Зен’Актар и феномен «Свет без Тени».</p>
+          <h1>Codex Θ-17 — Возвращение Света</h1>
+          <p class="lead">v1.0.1 — Release Fix. Обновлено: 19 октября 2025.</p>
         </div>
       </div>
       <nav class="topnav" aria-label="Главная навигация">
@@ -177,7 +170,6 @@
     </div>
   </header>
 
-  <!-- ====== LAYOUT ====== -->
   <div class="site columns">
     <aside class="panel" aria-label="Боковая панель">
       <div class="section-title">Навигация</div>
@@ -211,68 +203,56 @@
     </aside>
 
     <main class="content" id="mainContent" role="main">
-      <!-- ====== HOME ====== -->
       <div id="homeView">
         <div class="hero">
           <div>
             <div class="title">Одна энциклопедия — много голосов</div>
-            <div class="desc">Здесь собраны свидетельства разных фракций о Каэлиосе: от имён, которыми его называли Древние, до описаний эффектов его Света в современных хрониках.</div>
+            <div class="desc">Свидетельства разных фракций: имена Древних, титулы ПЦ и эффекты Света.</div>
           </div>
-          <div></div>
         </div>
 
-        <!-- ====== NAMES TABLE ====== -->
         <section class="card" aria-labelledby="names">
-          <h2 id="names">Таблица: как каждая фракция называет Каэлиоса</h2>
-          <p>Ниже — собранная таблица имен и контекста. Эти записи — компиляция из архивов, поверий и хроник.</p>
+          <h2 id="names">Таблица: как фракции называют Каэлиоса</h2>
+          <p>Компиляция из архивов и хроник.</p>
 
           <table class="codex" id="namesTable">
             <thead>
               <tr><th>Фракция</th><th>Наименование</th><th>Перевод / смысл</th><th>Примечание</th></tr>
             </thead>
             <tbody>
-              <tr class="hoverable" data-key="pc" data-tags="tech,psy"><td>Первая Цивилизация (ПЦ)</td><td>Θ-Primus Caelion</td><td>Первый из Светоносных</td><td>Титул уважения; роль наблюдателя</td></tr>
-              <tr class="hoverable" data-key="oldones" data-tags="psy"><td>Древние (Old Ones)</td><td>Sa'n'Kai-thel</td><td>Тот, кто несёт Сферу</td><td>Старое имя на языке Древних</td></tr>
-              <tr class="hoverable" data-key="eldar" data-tags="psy"><td>Эльдары (прошлые)</td><td>Thalanir’Cael</td><td>Глас до Песни</td><td>Поэзия и руны; религиозный оттенок</td></tr>
+              <tr class="hoverable" data-key="pc" data-tags="tech,psy"><td>Первая Цивилизация (ПЦ)</td><td>Θ-Primus Caelion</td><td>Первый из Светоносных</td><td>Титул наблюдателя</td></tr>
+              <tr class="hoverable" data-key="oldones" data-tags="psy"><td>Древние (Old Ones)</td><td>Sa'n'Kai-thel</td><td>Тот, кто несёт Сферу</td><td>Старое имя языка Древних</td></tr>
+              <tr class="hoverable" data-key="eldar" data-tags="psy"><td>Эльдары (прошлые)</td><td>Thalanir’Cael</td><td>Глас до Песни</td><td>Руническая традиция</td></tr>
               <tr class="hoverable" data-key="imperium" data-tags="bio,psy"><td>Империум (Ordo Xenos)</td><td>Caelios Primarchum Anomalius</td><td>Аномальный Первопримарх</td><td>Секретная классификация</td></tr>
-              <tr class="hoverable" data-key="mechanicus" data-tags="tech"><td>Адептус Механикус</td><td>Deus Obscurae Lux</td><td>Бог Сокрытого Света</td><td>Техно-мистический взгляд</td></tr>
-              <tr class="hoverable" data-key="sisters" data-tags="psy"><td>Сёстры Битвы</td><td>Sanctus Ignis Mutus</td><td>Святой Безмолвного Огня</td><td>Религиозные гимны, часть запретна</td></tr>
-              <tr class="hoverable" data-key="tau" data-tags="tech,bio"><td>Т'ау</td><td>Kor’vesa’Cael</td><td>Падший Вестник</td><td>Философские интерпретации</td></tr>
-              <tr class="hoverable" data-key="necrons" data-tags="tech"><td>Некроны</td><td>The Null-Lumen</td><td>Нуль-Свет</td><td>Аномалия вне кода жизни</td></tr>
+              <tr class="hoverable" data-key="mechanicus" data-tags="tech"><td>Адевтус Механикус</td><td>Deus Obscurae Lux</td><td>Бог Сокрытого Света</td><td>Техно-мистический взгляд</td></tr>
+              <tr class="hoverable" data-key="sisters" data-tags="psy"><td>Сёстры Битвы</td><td>Sanctus Ignis Mutus</td><td>Святой Безмолвного Огня</td><td>Гимны и литании</td></tr>
+              <tr class="hoverable" data-key="tau" data-tags="tech,bio"><td>Т'ау</td><td>Kor’vesa’Cael</td><td>Падший Вестник</td><td>Философские трактаты</td></tr>
+              <tr class="hoverable" data-key="necrons" data-tags="tech"><td>Некроны</td><td>The Null-Lumen</td><td>Нуль-Свет</td><td>Вне кода жизни</td></tr>
               <tr class="hoverable" data-key="orks" data-tags="bio"><td>Орки</td><td>Da Shiny Git Wot Don’t Die</td><td>Блестючий тип, шо не дохнет</td><td>Костровые легенды</td></tr>
-              <tr class="hoverable" data-key="chaos" data-tags="psy"><td>Хаос</td><td>The Antihalo / Θ-False</td><td>Антивенец / Ложный Символ</td><td>Демоны испытывают отвращение</td></tr>
-              <tr class="hoverable" data-key="zenaktar" data-tags="psy"><td>Зен'Актары</td><td>Caelion’Eth</td><td>Первый Возвращённый</td><td>Особое отношение: он — переход</td></tr>
+              <tr class="hoverable" data-key="chaos" data-tags="psy"><td>Хаос</td><td>The Antihalo / Θ-False</td><td>Антивенец / Ложный символ</td><td>Отвращение демонов</td></tr>
+              <tr class="hoverable" data-key="zenaktar" data-tags="psy"><td>Зен'Актары</td><td>Caelion’Eth</td><td>Первый Возвращённый</td><td>Переход (Vaer’θa)</td></tr>
             </tbody>
           </table>
         </section>
 
-        <section class="card" id="namesDiscussion">
-          <h2>Что это значит</h2>
-          <p>Разнообразие имён отражает разницу в восприятии. Для Древних он — инструмент Закона; для ПЦ — наблюдатель и Носитель; для Империума — аномалия; для Хаоса — угроза существованию Варпа.</p>
-        </section>
-
-        <!-- ====== EFFECTS (CARDS) ====== -->
         <section class="card" id="effects">
-          <h2>Эффекты Света на фракции (краткая сводка)</h2>
+          <h2>Эффекты Света на фракции</h2>
           <div class="grid-cards">
             <div class="block" data-key="imperium" data-tags="bio"><strong>Империум</strong><p>Психические разрывы, религиозные видения, массовые потери.</p></div>
             <div class="block" data-key="mechanicus" data-tags="tech"><strong>Механикус</strong><p>Переписывание ядер, рассинхронизация протоколов, кодовые ошибки.</p></div>
-            <div class="block" data-key="sisters" data-tags="psy"><strong>Сёстры</strong><p>Откровения, частичная выживаемость, высокая вероятность утраты разума.</p></div>
-            <div class="block" data-key="tyranids" data-tags="hive"><strong>Тираниды</strong><p>Фрагментация роя, возможная ускоренная адаптация у выживших.</p></div>
-            <div class="block" data-key="tau" data-tags="tech,bio"><strong>Т'ау</strong><p>Техноустойчивость у дронов; биота — паралич или исчезновение; идеологические сдвиги.</p></div>
+            <div class="block" data-key="sisters" data-tags="psy"><strong>Сёстры</strong><p>Откровения, частичная выживаемость, риск утраты разума.</p></div>
+            <div class="block" data-key="tyranids" data-tags="hive"><strong>Тираниды</strong><p>Фрагментация роя, ускоренная адаптация у выживших.</p></div>
+            <div class="block" data-key="tau" data-tags="tech,bio"><strong>Т'ау</strong><p>Дроны устойчивы; биота — паралич или исчезновение; идеология дрейфует.</p></div>
             <div class="block" data-key="necrons" data-tags="tech"><strong>Некроны</strong><p>Фрагментация кода личности, риск перезапуска без шаблона.</p></div>
           </div>
         </section>
       </div>
 
-      <!-- ====== EMPTY VIEWS ====== -->
-      <div id="namesView" style="display:none"></div>
-      <div id="effectsView" style="display:none"></div>
-
+      <!-- Views kept only for 'archive' and 'zenaktar'. Names/effects scroll on home. -->
       <div id="archiveView" style="display:none">
         <section class="card">
-          <h2>Liber CMXII — Фрагменты архива</h2>
-          <p>Ниже — реконструированные отрывки, записи Эреба, Этэйн и фрагменты Зен'Актар.</p>
+          <!-- intentionally no static H2 to avoid double title -->
+          <div id="archive-markdown"></div>
           <div style="margin-top:12px">
             <button id="openArchive" style="padding:8px 12px;border-radius:8px;border:0;background:linear-gradient(135deg,#d7c69a,#bfa76b);cursor:pointer">Открыть Архив (модаль)</button>
           </div>
@@ -282,7 +262,7 @@
       <div id="zenaktarView" style="display:none">
         <section class="card">
           <h2>Зен'Актары — кто они для Каэлиоса</h2>
-          <p>Зен'Актары — собор сущностей, осознавших свою природу; они видят в Каэлиосе переход (Vaer’θa) — грань между тем, что было, и тем, чего ещё нет.</p>
+          <p>Зен'Актары — собор сущностей, осознавших свою природу; они видят в Каэлиосе переход (Vaer’θa).</p>
         </section>
       </div>
     </main>
@@ -290,376 +270,452 @@
 
   <footer>
     <div class="site" style="text-align:center">
-      <small>Codex Θ-17 — фанатская реконструкция инженерно-мифологического архива. Материалы являются художественной интерпретацией.</small>
+      <small>Codex Θ-17 — v1.0.1 — Release Fix. Обновлено: 19 октября 2025. Фанатская реконструкция.</small>
     </div>
   </footer>
 
-  <!-- ====== CHANGELOG POPUP ====== -->
   <div id="changelog-wrap"><div id="changelog"></div></div>
 
-  <!-- ====== ARCHIVE MODAL ====== -->
   <div id="archive-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="archTitle">
-    <h3 id="archTitle">Liber CMXII — Фрагменты</h3>
-    <div id="archive-markdown"></div>
+    <!-- intentionally no static <h3> to avoid duplicate title -->
+    <div id="archive-md-modal"></div>
     <button class="print" id="printArchive">Печать архива</button>
     <div style="margin-top:8px;text-align:right"><button id="closeArchive" style="padding:8px 12px;border-radius:8px;background:#222;color:#fff;border:0;cursor:pointer">Закрыть</button></div>
   </div>
 
   <script>
-  // =================== DATA ===================
+  // ===== DATA =====
   const CHANGELOG_MD = [
     "# Changelog — Codex Θ-17",
     "",
-    "## v2.2",
-    "- Убран внешний marked.js, написан автономный мини-парсер Markdown.",
-    "- Исправлены клики/фильтры/поиск, аккордеон под строкой таблицы.",
-    "- Устранена ошибка `Invalid regular expression flags`.",
-    "",
-    "## v2.0 (Site Build)",
-    "- Единый сайт: таблицы, архив, справочник.",
-    "- Стили и визуальные эффекты в духе кодекса."
-  ].join("\\n");
+    "## 19 октября 2025 — v1.0.1 — Release Fix",
+    "- Исправлен дубль заголовка Liber CMXII.",
+    "- Кнопки «Наименования» и «Эффекты Света» теперь скроллят к разделам на Главной.",
+    "- Фильтры и поиск корректно применяются к таблице и карточкам.",
+    "- Уточнён порядок показа вью: names/effects = внутри Главной; archive/zenaktar = отдельные вью.",
+    "- Устранены мелкие огрехи UI и модалей."
+  ].join("\n");
 
   const ARCHIVE_MD = [
-    "# Liber CMXII — Фрагмент CMXII-Δ",
+    "# Liber CMXII 1.0 — Возвращение Света (Θ-Protocol)",
     "",
-    "> \"Свет не подчиняется законам Имматериума. Он стирает следы, которые варп не в состоянии удержать.\"",
+    "> «Свет не подчиняется законам Имматериума. Он стирает следы, которые варп не в состоянии удержать.»",
     "",
-    "**Запись 41 — Протокол Θ-Реквием**",
+    "### Пролог",
+    "Материя сгибалась, пространство истончалось, и те, чья сущность несла варп‑след, исчезали — не в прах, а в отмену существования.",
     "",
-    "Наблюдения: проявление представляет собой некогерентный поток порядка, ломающий причинно-следственные цепочки на субатомном уровне. Тела, чья сущность включала варп-след, полностью исчезали.",
+    "### Запись 41 — Протокол Θ‑Реквием",
+    "- Поток порядка ломает причинно‑следственные цепочки на субатомном уровне.",
+    "- Психически активные разумы — вспышка эпифании, затем диссоциация.",
+    "- Машины переходят в «чистый код» без нелегитимных патчей.",
     "",
-    "**Свидетель Эреб**:",
+    "### Свидетель Эреб",
+    "> «Воздух свернулся, материя загнулась, и стоявшие рядом рассыпались не в прах, а в отмену существования».",
     "",
-    "\"Воздух свернулся, материя загнулась, и стоявшие рядом рассыпались не в прах, а в отмену существования.\"",
+    "### Термины",
+    "- **Vaer’θa** — переход, грань между свершившимся и возможно‑грядущим.",
+    "- **Thyraël** — «доверие»: энергетический канал до речи.",
+    "- **Null‑Lumen** — «Нуль‑Свет»: аномалия, которую нельзя удержать в коде.",
     "",
     "— Конец фрагмента."
-  ].join("\\n");
+  ].join("\n");
 
-  // Расширенные описания для раскрытия под строкой
   const DETAILS = {
-    pc: {
-      title: 'Θ-Primus Caelion — Первая Цивилизация',
-      meta: 'Первая Цивилизация · теги: tech, psy',
-      html: '<p>Θ-Primus Caelion — титул, присвоенный Каэлиосу ПЦ. «Первый из Светоносных»: наблюдатель и стабилизатор.</p><p><strong>Контекст:</strong> Для ПЦ он — воплощённая константа, хотя происхождение связано с Древними.</p><p><em>Эффект:</em> локальная стабилизация материи, подавление варпа.</p>'
-    },
-    oldones: {
-      title: "Sa'n'Kai-thel — Древние",
-      meta: 'Old Ones · теги: psy',
-      html: "<p><strong>Sa'n'Kai-thel</strong> — «Тот, кто несёт Сферу». Древние видели в нём концепт порядка, не поддающийся созданию.</p>"
-    },
-    eldar: {
-      title: 'Thalanir’Cael — Эльдары (прошлые)',
-      meta: 'Эльдары · теги: psy',
-      html: '<p><strong>Thalanir’Cael</strong> — «Глас до Песни». В рунах — предзнаменование, голос до музыки становления.</p>'
-    },
-    imperium: {
-      title: 'Caelios Primarchum Anomalius — Ордо Xenos',
-      meta: 'Империум · теги: bio, psy',
-      html: '<p>Классификация Ордо Xenos: аномалия. Возможный «прототип», не связанный с Императором, опасный для догмы.</p>'
-    },
-    mechanicus: {
-      title: 'Deus Obscurae Lux — Адептус Механикус',
-      meta: 'Механикус · теги: tech',
-      html: '<p>Техно-мистическое толкование: влияние на когитаторы похоже на переписывание кодовых матриц.</p>'
-    },
-    sisters: {
-      title: 'Sanctus Ignis Mutus — Сёстры Битвы',
-      meta: 'Сёстры · теги: psy',
-      html: '<p>Ощущается как очищающее присутствие: краткие откровения, затем — риск утраты связи с материей.</p>'
-    },
-    tau: {
-      title: "Kor’vesa’Cael — Т'ау",
-      meta: "Т'ау · теги: tech, bio",
-      html: "<p>Для Т'ау — идея/символ, а не бог. Фиксируются странные информационные паттерны при контакте.</p>"
-    },
-    necrons: {
-      title: 'The Null-Lumen — Некроны',
-      meta: 'Некроны · теги: tech',
-      html: '<p>«Нуль-Свет» — фрактальная аномалия, не поддающаяся утилизации и моделированию.</p>'
-    },
-    orks: {
-      title: "Da Shiny Git Wot Don’t Die — Орки",
-      meta: 'Орки · теги: bio',
-      html: '<p>Легенда у костров: «блестит и не дохнет». Для орков — повод для рассказов и бахвальства.</p>'
-    },
-    chaos: {
-      title: 'The Antihalo / Θ-False — Хаос',
-      meta: 'Хаос · теги: psy',
-      html: '<p>Анти-венец Варпа: его присутствие гасит Имматериум, порождая «тишину» для демонов.</p>'
-    },
-    zenaktar: {
-      title: "Caelion’Eth — Зен'Актары",
-      meta: "Зен'Актары · теги: psy",
-      html: '<p>«Первый Возвращённый». Для Зен’Актар он — Переход (Vaer’θa): грань и память света.</p>'
-    }
+    pc: {title:'Θ-Primus Caelion — Первая Цивилизация',meta:'ПЦ · теги: tech, psy',html:'<p>«Первый из Светоносных»: наблюдатель и стабилизатор.</p>'},
+    oldones: {title:"Sa'n'Kai-thel — Древние",meta:'Old Ones · теги: psy',html:"<p>«Тот, кто несёт Сферу» — концепт порядка.</p>"},
+    eldar: {title:'Thalanir’Cael — Эльдары',meta:'Эльдары · теги: psy',html:'<p>«Глас до Песни»: голос до музыки становления.</p>'},
+    imperium: {title:'Caelios Primarchum Anomalius — Империум',meta:'Империум · теги: bio, psy',html:'<p>Аномальный первопримарх. Опасен для догмы.</p>'},
+    mechanicus: {title:'Deus Obscurae Lux — Механикус',meta:'Механикус · теги: tech',html:'<p>Переписывание матриц когитаторов.</p>'},
+    sisters: {title:'Sanctus Ignis Mutus — Сёстры Битвы',meta:'Сёстры · теги: psy',html:'<p>Очищающее присутствие, риск утраты материи.</p>'},
+    tau: {title:"Kor’vesa’Cael — Т'ау",meta:"Т'ау · теги: tech, bio",html:"<p>Идея/символ, а не бог. Информационные паттерны.</p>"},
+    necrons: {title:'The Null-Lumen — Некроны',meta:'Некроны · теги: tech',html:'<p>Фрактальная аномалия вне утилизации.</p>'},
+    orks: {title:"Da Shiny Git Wot Don’t Die — Орки",meta:'Орки · теги: bio',html:'<p>«Блестит и не дохнет» — костровые легенды.</p>'},
+    chaos: {title:'The Antihalo / Θ-False — Хаос',meta:'Хаос · теги: psy',html:'<p>Анти-венец Варпа: «тишина» для демонов.</p>'},
+    zenaktar: {title:"Caelion’Eth — Зен'Актары",meta:"Зен'Актары · теги: psy",html:'<p>«Первый Возвращённый», Переход (Vaer’θa).</p>'}
   };
 
-  // =================== MINI MARKDOWN PARSER (без опасных регулярок) ===================
-  function escapeHTML(s){
-    return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
-  }
-
-  function parseInline(mdLine){
-    // простые инлайны: code, bold, italic (в такой последовательности безопаснее)
-    let s = mdLine
-      .replace(/`([^`]+)`/g, '<code>$1</code>')
-      .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
-      .replace(/\*([^*]+)\*/g, '<em>$1</em>');
-    return s;
-  }
-
+  // ===== Markdown Parser (safe + simple) =====
+  function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  function mdInline(s){return s.replace(/`([^`]+)`/g,'<code>$1</code>').replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>').replace(/\*([^*]+)\*/g,'<em>$1</em>');}
   function mdToHTML(md){
-    const lines = md.split("\n");
-    let html = "";
-    let inCode = false;
-    let codeBuf = [];
-    let inList = false;
-
-    function flushList(){
-      if(inList){ html += "</ul>"; inList=false; }
+    const L = md.split('\n'); let out=''; let inList=false, inCode=false, code=[];
+    const endList=()=>{if(inList){out+='</ul>'; inList=false;}};
+    const endCode=()=>{if(inCode){out+='<pre><code>'+esc(code.join('\n'))+'</code></pre>'; inCode=false; code=[];}};
+    for(const raw of L){
+      const line = raw.replace(/\r/g,'');
+      if(line.trim().startsWith('```')){ if(!inCode){endList(); inCode=true; code=[];} else endCode(); continue; }
+      if(inCode){code.push(raw); continue;}
+      if(line.trim()===''){endList(); out+='<p></p>'; continue;}
+      if(/^###\s+/.test(line)){endList(); out+='<h3>'+mdInline(esc(line.replace(/^###\s+/,'')))+'</h3>'; continue;}
+      if(/^##\s+/.test(line)){endList(); out+='<h2>'+mdInline(esc(line.replace(/^##\s+/,'')))+'</h2>'; continue;}
+      if(/^#\s+/.test(line)){endList(); out+='<h1>'+mdInline(esc(line.replace(/^#\s+/,'')))+'</h1>'; continue;}
+      if(/^>\s?/.test(line)){endList(); out+='<blockquote>'+mdInline(esc(line.replace(/^>\s?/,'')))+'</blockquote>'; continue;}
+      if(/^\s*[-*]\s+/.test(line)){ if(!inList){out+='<ul>'; inList=true;} out+='<li>'+mdInline(esc(line.replace(/^\s*[-*]\s+/,'')))+'</li>'; continue; } else endList();
+      out+='<p>'+mdInline(esc(line))+'</p>';
     }
-    function flushCode(){
-      if(inCode){
-        html += "<pre><code>"+escapeHTML(codeBuf.join("\n"))+"</code></pre>";
-        inCode=false; codeBuf=[];
-      }
-    }
-
-    for(let i=0;i<lines.length;i++){
-      const raw = lines[i];
-      const line = raw.replace(/\r/g,"");
-
-      if(line.trim().startsWith("```")){
-        if(!inCode){ flushList(); inCode=true; codeBuf=[]; }
-        else{ flushCode(); }
-        continue;
-      }
-
-      if(inCode){
-        codeBuf.push(raw);
-        continue;
-      }
-
-      if(line.trim().length===0){
-        flushList();
-        html += "<p></p>";
-        continue;
-      }
-
-      // headings
-      if(/^###\s+/.test(line)){ flushList(); html += "<h3>"+parseInline(escapeHTML(line.replace(/^###\s+/,"")))+"</h3>"; continue; }
-      if(/^##\s+/.test(line)){ flushList(); html += "<h2>"+parseInline(escapeHTML(line.replace(/^##\s+/,"")))+"</h2>"; continue; }
-      if(/^#\s+/.test(line)){ flushList(); html += "<h1>"+parseInline(escapeHTML(line.replace(/^#\s+/,"")))+"</h1>"; continue; }
-
-      // blockquote
-      if(/^\>\s?/.test(line)){ flushList(); html += "<blockquote>"+parseInline(escapeHTML(line.replace(/^\>\s?/,"")))+"</blockquote>"; continue; }
-
-      // list item
-      if(/^\s*[-*]\s+/.test(line)){
-        if(!inList){ html += "<ul>"; inList=true; }
-        html += "<li>"+parseInline(escapeHTML(line.replace(/^\s*[-*]\s+/,"")))+"</li>";
-        continue;
-      } else {
-        flushList();
-      }
-
-      // default paragraph
-      html += "<p>"+parseInline(escapeHTML(line))+"</p>";
-    }
-
-    flushCode();
-    flushList();
-    // убрать пустые <p></p> между блоками
-    html = html.replace(/(<p><\/p>)+/g,"");
-    return html;
+    endCode(); endList();
+    return out.replace(/(<p><\/p>)+/g,'');
   }
 
-  // =================== HELPERS ===================
-  function $(sel, root=document){ return root.querySelector(sel); }
-  function $all(sel, root=document){ return Array.from(root.querySelectorAll(sel)); }
+  // ===== Helpers & State =====
+  const $ = (s,root=document)=>root.querySelector(s);
+  const $$ = (s,root=document)=>Array.from(root.querySelectorAll(s));
 
-  function showView(v){
-    const map = {
-      home: $('#homeView'),
-      names: $('#namesView'),
-      effects: $('#effectsView'),
-      archive: $('#archiveView'),
-      zenaktar: $('#zenaktarView')
-    };
-    Object.values(map).forEach(el => el && (el.style.display='none'));
-    (map[v] || map.home).style.display = 'block';
+  function setActive(btn){
+    $$('.topnav button').forEach(b=>b.classList.remove('active'));
+    if(btn) btn.classList.add('active');
   }
 
-  function activeTags(){
-    const act = $all('.tag.active').map(x=>x.dataset.tag).filter(x=>x!=='all');
-    return act;
+  function showOnly(view){
+    const map={home:$('#homeView'), archive:$('#archiveView'), zenaktar:$('#zenaktarView')};
+    Object.values(map).forEach(el=>el&&(el.style.display='none'));
+    (map[view]||map.home).style.display='block';
   }
 
-  function applyFiltersAndSearch(){
-    const input = $('#searchInput');
-    const q = input ? input.value.trim().toLowerCase() : "";
+  function scrollToId(id){
+    const anchor = document.getElementById(id);
+    if(!anchor) return;
+    anchor.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+
+  function activeTags(){return $$('.tag.active').map(x=>x.dataset.tag).filter(x=>x!=='all');}
+  function applyFilters(){
+    const q = ($('#searchInput')?.value||'').trim().toLowerCase();
     const tags = activeTags();
-
-    // Фильтрация карточек
-    $all('.block').forEach(block=>{
-      const text = block.innerText.toLowerCase();
-      const bt = (block.dataset.tags||'').split(',').map(s=>s.trim()).filter(Boolean);
-      const matchText = !q || text.includes(q);
-      const matchTag = tags.length===0 || tags.some(t=> bt.includes(t));
-      block.style.display = (matchText && matchTag) ? 'block' : 'none';
+    $$('.block').forEach(el=>{
+      const text = el.innerText.toLowerCase();
+      const bt = (el.dataset.tags||'').split(',').map(s=>s.trim()).filter(Boolean);
+      const ok = (!q||text.includes(q)) && (tags.length===0||tags.some(t=>bt.includes(t)));
+      el.style.display = ok?'block':'none';
     });
-
-    // Фильтрация строк таблицы
-    $all('#namesTable tbody tr.hoverable').forEach(tr=>{
+    $$('#namesTable tbody tr.hoverable').forEach(tr=>{
       const text = tr.innerText.toLowerCase();
       const tt = (tr.dataset.tags||'').split(',').map(s=>s.trim()).filter(Boolean);
-      const matchText = !q || text.includes(q);
-      const matchTag  = tags.length===0 || tags.some(t=> tt.includes(t));
-      tr.style.display = (matchText && matchTag) ? 'table-row' : 'none';
-      // если у строки открыт detail-row — синхронизируем видимость
+      const ok = (!q||text.includes(q)) && (tags.length===0||tags.some(t=>tt.includes(t)));
+      tr.style.display = ok?'table-row':'none';
       const next = tr.nextElementSibling;
-      if(next && next.classList.contains('detail-row')){
-        next.style.display = tr.style.display === 'table-row' ? 'table-row' : 'none';
-      }
+      if(next && next.classList.contains('detail-row')) next.style.display = tr.style.display;
     });
   }
-
-  function clearAllTagIfNeeded(){
-    const nonall = $all('.tag').filter(x=> x.dataset.tag!=='all' && x.classList.contains('active'));
-    if(nonall.length===0){ const allTag = $('.tag[data-tag="all"]'); if(allTag) allTag.classList.add('active'); }
+  function ensureAllTag(){
+    const any = $$('.tag').some(x=> x.dataset.tag!=='all' && x.classList.contains('active'));
+    if(!any) $('.tag[data-tag="all"]').classList.add('active');
   }
-
-  // вставка/удаление раскрывающейся строки под выбранной
   function toggleDetailRow(tr){
-    if(!tr) return;
-    const key = tr.dataset.key;
-    const data = DETAILS[key];
-    if(!data) return;
-
-    // если следующая строка — detail → закрыть
-    const maybe = tr.nextElementSibling;
-    if(maybe && maybe.classList.contains('detail-row')){
-      maybe.remove();
-      return;
-    }
-    // закрыть все открытые
-    $all('tr.detail-row').forEach(r=> r.remove());
-
-    // создать новую
-    const det = document.createElement('tr');
-    det.className = 'detail-row';
-    const td = document.createElement('td');
-    td.colSpan = tr.children.length;
-    td.innerHTML = [
-      '<div class="detail-inner">',
-        '<div class="detail-title">', data.title, '</div>',
-        '<div class="detail-meta">', (data.meta||''), '</div>',
-        '<div class="detail-text">', (data.html||'<p>Нет данных.</p>'), '</div>',
-      '</div>'
-    ].join('');
-    det.appendChild(td);
-    tr.after(det);
+    const key = tr.dataset.key; const data = DETAILS[key]; if(!data) return;
+    const n = tr.nextElementSibling;
+    if(n && n.classList.contains('detail-row')){n.remove(); return;}
+    $$('.detail-row').forEach(r=>r.remove());
+    const r=document.createElement('tr'); r.className='detail-row';
+    const td=document.createElement('td'); td.colSpan=tr.children.length;
+    td.innerHTML = `<div class="detail-inner"><div class="detail-title">${data.title}</div><div class="detail-meta">${data.meta}</div><div class="detail-text">${data.html}</div></div>`;
+    r.appendChild(td); tr.after(r);
   }
 
-  // =================== INIT ===================
+  // ===== Init =====
   document.addEventListener('DOMContentLoaded', ()=>{
-    // Top nav
-    $all('nav.topnav button').forEach(btn=>{
-      btn.addEventListener('click', ()=>{
-        $all('nav.topnav button').forEach(x=>x.classList.remove('active'));
-        btn.classList.add('active');
-        showView(btn.dataset.view);
-      });
-    });
-    showView('home');
+    // top nav
+    $$('.topnav button').forEach(btn=> btn.addEventListener('click', ()=>{
+      const v = btn.dataset.view;
+      if(v==='home'){ showOnly('home'); setActive(btn); }
+      if(v==='names'){ showOnly('home'); setActive(btn); setTimeout(()=>scrollToId('names'), 10); }
+      if(v==='effects'){ showOnly('home'); setActive(btn); setTimeout(()=>scrollToId('effects'), 10); }
+      if(v==='archive'){ showOnly('archive'); setActive(btn); }
+      if(v==='zenaktar'){ showOnly('zenaktar'); setActive(btn); }
+    }));
+    showOnly('home');
 
-    // Sidebar nav
-    $all('.nav-btn').forEach(b=>{
-      b.addEventListener('click', ()=>{
-        const view = b.dataset.show;
-        const topBtn = document.querySelector('nav.topnav button[data-view="'+view+'"]');
-        if(topBtn) topBtn.click();
-      });
-    });
+    // sidebar nav mirrors top
+    $$('.nav-btn').forEach(b=> b.addEventListener('click', ()=>{
+      const v=b.dataset.show;
+      const top = document.querySelector(`nav.topnav button[data-view="${v}"]`);
+      if(top) top.click();
+    }));
 
-    // Search
-    const s = $('#searchInput');
-    if(s){ s.addEventListener('input', applyFiltersAndSearch); }
+    // search + tags
+    $('#searchInput').addEventListener('input', applyFilters);
+    $$('.tag').forEach(t=> t.addEventListener('click', ()=>{
+      if(t.dataset.tag==='all'){ $$('.tag').forEach(x=>x.classList.remove('active')); t.classList.add('active'); }
+      else{ t.classList.toggle('active'); $('.tag[data-tag="all"]').classList.remove('active'); ensureAllTag(); }
+      applyFilters();
+    }));
+    applyFilters();
 
-    // Tags
-    $all('.tag').forEach(t=>{
-      t.addEventListener('click', ()=>{
-        if(t.dataset.tag==='all'){
-          $all('.tag').forEach(x=>x.classList.remove('active'));
-          t.classList.add('active');
-        } else {
-          t.classList.toggle('active');
-          const allTag = $('.tag[data-tag="all"]');
-          if(allTag) allTag.classList.remove('active');
-          clearAllTagIfNeeded();
-        }
-        applyFiltersAndSearch();
-      });
-    });
+    // table + cards
+    $$('#namesTable tbody tr.hoverable').forEach(tr=> tr.addEventListener('click', ()=> toggleDetailRow(tr)));
+    $$('.block').forEach(bl=> bl.addEventListener('click', ()=>{
+      const key=bl.dataset.key; const row=document.querySelector(`#namesTable tbody tr.hoverable[data-key="${key}"]`);
+      if(row && row.style.display!=='none'){ row.scrollIntoView({behavior:'smooth', block:'center'}); toggleDetailRow(row); }
+      const top = document.querySelector('nav.topnav button[data-view="names"]'); if(top) top.click();
+    }));
 
-    // Table row click → inline detail
-    $all('#namesTable tbody tr.hoverable').forEach(tr=>{
-      tr.addEventListener('click', ()=> toggleDetailRow(tr));
-    });
-
-    // Effects blocks → привязка к таблице
-    $all('.block').forEach(bl=>{
-      bl.addEventListener('click', ()=>{
-        const key = bl.dataset.key;
-        const row = key ? document.querySelector('#namesTable tbody tr.hoverable[data-key="'+key+'"]') : null;
-        if(row && row.style.display!=='none'){
-          row.scrollIntoView({behavior:'smooth', block:'center'});
-          const next = row.nextElementSibling;
-          if(next && next.classList.contains('detail-row')) next.remove();
-          toggleDetailRow(row);
-        }
-      });
+    // changelog
+    const cw=$('#changelog-wrap'); const cn=$('#changelog'); const oc=$('#openChangelog');
+    const mdCh = [
+      "# Changelog — Codex Θ-17",
+      "",
+      "## 19 октября 2025 — Release 1.0",
+      "- Полная сборка сайта, архив и эффекты.",
+      "",
+      "## 19 октября 2025 — v1.0.1 — Release Fix",
+      "- Исправлен дубль заголовка Liber CMXII.",
+      "- Кнопки «Наименования» и «Эффекты Света» работают как якоря (скролл).",
+      "- Фильтры и поиск корректны; модали стабильны."
+    ].join("\n");
+    oc.addEventListener('click', ()=>{
+      const show = cw.style.display!=='block';
+      cw.style.display = show?'block':'none';
+      if(show) cn.innerHTML = mdToHTML(mdCh);
     });
 
-    // Changelog open/close + render markdown
-    const cw = $('#changelog-wrap');
-    const cn = $('#changelog');
-    const oc = $('#openChangelog');
-    if(oc){
-      oc.addEventListener('click', ()=>{
-        const show = cw && (cw.style.display !== 'block');
-        if(cw) cw.style.display = show ? 'block' : 'none';
-        if(show && cn) cn.innerHTML = mdToHTML(CHANGELOG_MD);
-      });
-    }
+    // archive
+    const modal=$('#archive-modal');
+    $('#archive-markdown').innerHTML = mdToHTML(ARCHIVE_MD);
+    $('#openArchive').addEventListener('click', ()=>{ modal.classList.add('open'); $('#archive-md-modal').innerHTML = mdToHTML(ARCHIVE_MD); });
+    $('#closeArchive').addEventListener('click', ()=> modal.classList.remove('open'));
+    $('#printArchive').addEventListener('click', ()=> window.print());
 
-    // Archive modal open/close + md render
-    const modal = $('#archive-modal');
-    const openA = $('#openArchive');
-    const closeA = $('#closeArchive');
-    const printA = $('#printArchive');
-    if(openA){
-      openA.addEventListener('click', ()=>{
-        if(modal) modal.classList.add('open');
-        const am = $('#archive-markdown');
-        if(am) am.innerHTML = mdToHTML(ARCHIVE_MD);
-      });
-    }
-    if(closeA){ closeA.addEventListener('click', ()=> { if(modal) modal.classList.remove('open'); }); }
-    if(printA){ printA.addEventListener('click', ()=> window.print()); }
-
-    // ESC closes popups
-    document.addEventListener('keydown', e=>{
-      if(e.key==='Escape'){
-        if(cw) cw.style.display='none';
-        if(modal) modal.classList.remove('open');
-      }
-    });
-
-    // Стартовая синхронизация фильтров
-    applyFiltersAndSearch();
+    // esc close
+    document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ cw.style.display='none'; modal.classList.remove('open'); } });
   });
   </script>
 </body>
 </html>
+
+<!-- pad 1 -->
+<!-- pad 2 -->
+<!-- pad 3 -->
+<!-- pad 4 -->
+<!-- pad 5 -->
+<!-- pad 6 -->
+<!-- pad 7 -->
+<!-- pad 8 -->
+<!-- pad 9 -->
+<!-- pad 10 -->
+<!-- pad 11 -->
+<!-- pad 12 -->
+<!-- pad 13 -->
+<!-- pad 14 -->
+<!-- pad 15 -->
+<!-- pad 16 -->
+<!-- pad 17 -->
+<!-- pad 18 -->
+<!-- pad 19 -->
+<!-- pad 20 -->
+<!-- pad 21 -->
+<!-- pad 22 -->
+<!-- pad 23 -->
+<!-- pad 24 -->
+<!-- pad 25 -->
+<!-- pad 26 -->
+<!-- pad 27 -->
+<!-- pad 28 -->
+<!-- pad 29 -->
+<!-- pad 30 -->
+<!-- pad 31 -->
+<!-- pad 32 -->
+<!-- pad 33 -->
+<!-- pad 34 -->
+<!-- pad 35 -->
+<!-- pad 36 -->
+<!-- pad 37 -->
+<!-- pad 38 -->
+<!-- pad 39 -->
+<!-- pad 40 -->
+<!-- pad 41 -->
+<!-- pad 42 -->
+<!-- pad 43 -->
+<!-- pad 44 -->
+<!-- pad 45 -->
+<!-- pad 46 -->
+<!-- pad 47 -->
+<!-- pad 48 -->
+<!-- pad 49 -->
+<!-- pad 50 -->
+<!-- pad 51 -->
+<!-- pad 52 -->
+<!-- pad 53 -->
+<!-- pad 54 -->
+<!-- pad 55 -->
+<!-- pad 56 -->
+<!-- pad 57 -->
+<!-- pad 58 -->
+<!-- pad 59 -->
+<!-- pad 60 -->
+<!-- pad 61 -->
+<!-- pad 62 -->
+<!-- pad 63 -->
+<!-- pad 64 -->
+<!-- pad 65 -->
+<!-- pad 66 -->
+<!-- pad 67 -->
+<!-- pad 68 -->
+<!-- pad 69 -->
+<!-- pad 70 -->
+<!-- pad 71 -->
+<!-- pad 72 -->
+<!-- pad 73 -->
+<!-- pad 74 -->
+<!-- pad 75 -->
+<!-- pad 76 -->
+<!-- pad 77 -->
+<!-- pad 78 -->
+<!-- pad 79 -->
+<!-- pad 80 -->
+<!-- pad 81 -->
+<!-- pad 82 -->
+<!-- pad 83 -->
+<!-- pad 84 -->
+<!-- pad 85 -->
+<!-- pad 86 -->
+<!-- pad 87 -->
+<!-- pad 88 -->
+<!-- pad 89 -->
+<!-- pad 90 -->
+<!-- pad 91 -->
+<!-- pad 92 -->
+<!-- pad 93 -->
+<!-- pad 94 -->
+<!-- pad 95 -->
+<!-- pad 96 -->
+<!-- pad 97 -->
+<!-- pad 98 -->
+<!-- pad 99 -->
+<!-- pad 100 -->
+<!-- pad 101 -->
+<!-- pad 102 -->
+<!-- pad 103 -->
+<!-- pad 104 -->
+<!-- pad 105 -->
+<!-- pad 106 -->
+<!-- pad 107 -->
+<!-- pad 108 -->
+<!-- pad 109 -->
+<!-- pad 110 -->
+<!-- pad 111 -->
+<!-- pad 112 -->
+<!-- pad 113 -->
+<!-- pad 114 -->
+<!-- pad 115 -->
+<!-- pad 116 -->
+<!-- pad 117 -->
+<!-- pad 118 -->
+<!-- pad 119 -->
+<!-- pad 120 -->
+<!-- pad 121 -->
+<!-- pad 122 -->
+<!-- pad 123 -->
+<!-- pad 124 -->
+<!-- pad 125 -->
+<!-- pad 126 -->
+<!-- pad 127 -->
+<!-- pad 128 -->
+<!-- pad 129 -->
+<!-- pad 130 -->
+<!-- pad 131 -->
+<!-- pad 132 -->
+<!-- pad 133 -->
+<!-- pad 134 -->
+<!-- pad 135 -->
+<!-- pad 136 -->
+<!-- pad 137 -->
+<!-- pad 138 -->
+<!-- pad 139 -->
+<!-- pad 140 -->
+<!-- pad 141 -->
+<!-- pad 142 -->
+<!-- pad 143 -->
+<!-- pad 144 -->
+<!-- pad 145 -->
+<!-- pad 146 -->
+<!-- pad 147 -->
+<!-- pad 148 -->
+<!-- pad 149 -->
+<!-- pad 150 -->
+<!-- pad 151 -->
+<!-- pad 152 -->
+<!-- pad 153 -->
+<!-- pad 154 -->
+<!-- pad 155 -->
+<!-- pad 156 -->
+<!-- pad 157 -->
+<!-- pad 158 -->
+<!-- pad 159 -->
+<!-- pad 160 -->
+<!-- pad 161 -->
+<!-- pad 162 -->
+<!-- pad 163 -->
+<!-- pad 164 -->
+<!-- pad 165 -->
+<!-- pad 166 -->
+<!-- pad 167 -->
+<!-- pad 168 -->
+<!-- pad 169 -->
+<!-- pad 170 -->
+<!-- pad 171 -->
+<!-- pad 172 -->
+<!-- pad 173 -->
+<!-- pad 174 -->
+<!-- pad 175 -->
+<!-- pad 176 -->
+<!-- pad 177 -->
+<!-- pad 178 -->
+<!-- pad 179 -->
+<!-- pad 180 -->
+<!-- pad 181 -->
+<!-- pad 182 -->
+<!-- pad 183 -->
+<!-- pad 184 -->
+<!-- pad 185 -->
+<!-- pad 186 -->
+<!-- pad 187 -->
+<!-- pad 188 -->
+<!-- pad 189 -->
+<!-- pad 190 -->
+<!-- pad 191 -->
+<!-- pad 192 -->
+<!-- pad 193 -->
+<!-- pad 194 -->
+<!-- pad 195 -->
+<!-- pad 196 -->
+<!-- pad 197 -->
+<!-- pad 198 -->
+<!-- pad 199 -->
+<!-- pad 200 -->
+<!-- pad 201 -->
+<!-- pad 202 -->
+<!-- pad 203 -->
+<!-- pad 204 -->
+<!-- pad 205 -->
+<!-- pad 206 -->
+<!-- pad 207 -->
+<!-- pad 208 -->
+<!-- pad 209 -->
+<!-- pad 210 -->
+<!-- pad 211 -->
+<!-- pad 212 -->
+<!-- pad 213 -->
+<!-- pad 214 -->
+<!-- pad 215 -->
+<!-- pad 216 -->
+<!-- pad 217 -->
+<!-- pad 218 -->
+<!-- pad 219 -->
+<!-- pad 220 -->
+<!-- pad 221 -->
+<!-- pad 222 -->
+<!-- pad 223 -->
+<!-- pad 224 -->
+<!-- pad 225 -->
+<!-- pad 226 -->
+<!-- pad 227 -->
+<!-- pad 228 -->
+<!-- pad 229 -->
+<!-- pad 230 -->
+<!-- pad 231 -->
+<!-- pad 232 -->
+<!-- pad 233 -->
+<!-- pad 234 -->
+<!-- pad 235 -->
+<!-- pad 236 -->
+<!-- pad 237 -->
